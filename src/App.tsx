@@ -1,6 +1,7 @@
+import { Todo } from "./Todos/Todo";
 
 function App() {
-  return null;
+  return <Todo />;
 }
 
 export default App;
