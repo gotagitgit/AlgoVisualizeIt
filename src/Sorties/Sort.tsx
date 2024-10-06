@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import './sort.css'
 import { ISortBox, SortBox } from './SortBox'
 
-export function Sort() {
-
-    const [numbers, setNumbers] = useState<number[]>([]);
+export function Sort()
+{
+    const [sortBoxes, setSortBoxes] = useState<ISortBox[]>([]);
 
     const [isSorting, setIsSorting] = useState(false);
 
@@ -14,7 +14,17 @@ export function Sort() {
         {
             const randomNumbers = Array.from({ length: 10 }, () => Math.floor(Math.random() * 100));
 
-            setNumbers(randomNumbers);
+            const boxes: ISortBox[] = randomNumbers.map((x, index) => (
+                {
+                    index: index,
+                    value: x,
+                    isActive: false
+                }
+            ));
+
+            // setNumbers(randomNumbers);
+
+            setSortBoxes(boxes);
         };
 
         generateRandomNumbers();
@@ -24,21 +34,24 @@ export function Sort() {
     {
         setIsSorting(true);
 
-        const sortNumbers = [ ...numbers];
+        const newSortBoxes = [ ...sortBoxes];
 
-        const numLength = numbers.length;
+        const numLength = sortBoxes.length;
 
         for (let i = 0; i < numLength; i++)
         {
             for (let j = 0; j < numLength - 1 - i; j++)
             {
-                if (sortNumbers[j] > sortNumbers[j + 1])
+                const box1: ISortBox = {...newSortBoxes[j], isActive: true };
+                const box2: ISortBox = {...newSortBoxes[j + 1], isActive: true };
+
+                if (box1.value > box2.value)
                 {
-                    [sortNumbers[j], sortNumbers[j + 1]] = [sortNumbers[j + 1], sortNumbers[j]];
+                    [newSortBoxes[j], newSortBoxes[j + 1]] = [box2, box1];
 
-                    setNumbers([...sortNumbers]);
+                    setSortBoxes([...newSortBoxes]);
 
-                    await new Promise(x => setTimeout(x, 1000));
+                    await new Promise(x => setTimeout(x, 500));
                 }
             }
         }
@@ -46,7 +59,7 @@ export function Sort() {
         setIsSorting(false);
     };
 
-    const boxes = numbers.map((number, index) => <SortBox index={index} value={number} isActive={false} />);
+    const boxes = sortBoxes.map((box, _) => <SortBox {...box} />);
 
     return (
         <div className="container">
@@ -59,13 +72,3 @@ export function Sort() {
         </div>
     )
 }
-
-// function isAllBoxesActive(boxes: ISortBox[], isActive: boolean)
-// {
-//     const updatedNumbers = numbers.map(x => (
-//         {
-//             ...x,
-//             isActive: isActive,
-//         }
-//     ));
-// }

@@ -8,9 +8,11 @@ export interface ISortBox
 }
 
 export function SortBox(props: ISortBox) {
-    const { index, value } = props;
+    const { index, value, isActive } = props;
+
+    const boxClass = isActive ? "box-swap" : "box";
 
     return (
-    <li className="box" key={index}>{value}</li>
+    <li className={boxClass} key={index}>{value}</li>
   )
 }

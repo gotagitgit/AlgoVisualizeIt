@@ -36,6 +36,20 @@ body {
     margin: 0 10px; /* Add horizontal space between boxes */
 }
 
+.box-swap {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #31a8bd;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    border-radius: 10px;
+    margin: 0 10px; /* Add horizontal space between boxes */
+}
+
 .action-button {
     padding: 10px 20px;
     font-size: 18px;
