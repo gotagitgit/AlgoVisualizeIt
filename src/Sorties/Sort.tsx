@@ -34,7 +34,7 @@ export function Sort()
     {
         setIsSorting(true);
 
-        const newSortBoxes = [ ...sortBoxes];
+        let newSortBoxes = [ ...sortBoxes];
 
         const numLength = sortBoxes.length;
 
@@ -45,6 +45,8 @@ export function Sort()
                 const box1: ISortBox = {...newSortBoxes[j], isActive: true };
                 const box2: ISortBox = {...newSortBoxes[j + 1], isActive: true };
 
+                await MoveBoxesToSwap(j, newSortBoxes, true, setSortBoxes);
+
                 if (box1.value > box2.value)
                 {
                     [newSortBoxes[j], newSortBoxes[j + 1]] = [box2, box1];
@@ -53,6 +55,8 @@ export function Sort()
 
                     await new Promise(x => setTimeout(x, 500));
                 }
+
+                await MoveBoxesToSwap(j, newSortBoxes, false, setSortBoxes);
             }
         }
 
@@ -71,4 +75,20 @@ export function Sort()
             </button>
         </div>
     )
+}
+
+async function MoveBoxesToSwap(
+    index: number,
+    boxes: ISortBox[],
+    isActiveBox: boolean,
+    callback: (movedBoxes: ISortBox[]) => void)
+{
+    const box1: ISortBox = {...boxes[index], isActive: isActiveBox };
+    const box2: ISortBox = {...boxes[index + 1], isActive: isActiveBox };
+
+    [boxes[index], boxes[index + 1]] = [box1, box2];
+
+    callback([...boxes]);
+
+    await new Promise(x => setTimeout(x, 500));
 }
