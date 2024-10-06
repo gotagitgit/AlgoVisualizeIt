@@ -4,13 +4,33 @@ export interface ISortBox
 {
     index: number,
     value: number,
-    isActive: boolean
+    // isActive: boolean,
+    boxState: BoxState
+}
+
+export enum BoxState
+{
+  Normal,
+  SwapBox1,
+  SwapBox2
 }
 
 export function SortBox(props: ISortBox) {
-    const { index, value, isActive } = props;
+    const { index, value, boxState } = props;
 
-    const boxClass = isActive ? "box-swap" : "box";
+    let boxClass = "box";
+
+    switch (boxState) {
+      case BoxState.SwapBox1:
+          boxClass = "box1";
+        break;
+      case BoxState.SwapBox2:
+        boxClass = "box2";
+        break;
+      default:
+        boxClass = "box";
+        break;
+    }
 
     return (
     <li className={boxClass} key={index}>{value}</li>

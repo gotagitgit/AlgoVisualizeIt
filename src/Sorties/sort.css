@@ -28,7 +28,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #4CAF50;
+    background-color: #2788D8;
     color: white;
     font-size: 24px;
     font-weight: bold;
@@ -36,15 +36,29 @@ body {
     margin: 0 10px; /* Add horizontal space between boxes */
 }
 
-.box-swap {
+.box1 {
     width: 100px;
     height: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #31a8bd;
-    color: white;
-    font-size: 24px;
+    background-color: #D82788;
+    color: black;
+    font-size: 30px;
+    font-weight: bold;
+    border-radius: 10px;
+    margin: 0 10px; /* Add horizontal space between boxes */
+}
+
+.box2 {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #88D827;
+    color: black;
+    font-size: 30px;
     font-weight: bold;
     border-radius: 10px;
     margin: 0 10px; /* Add horizontal space between boxes */

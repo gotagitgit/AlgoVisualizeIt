@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './sort.css'
-import { ISortBox, SortBox } from './SortBox'
+import { BoxState, ISortBox, SortBox } from './SortBox'
 
 export function Sort()
 {
@@ -18,11 +18,9 @@ export function Sort()
                 {
                     index: index,
                     value: x,
-                    isActive: false
+                    boxState: BoxState.Normal
                 }
             ));
-
-            // setNumbers(randomNumbers);
 
             setSortBoxes(boxes);
         };
@@ -42,10 +40,10 @@ export function Sort()
         {
             for (let j = 0; j < numLength - 1 - i; j++)
             {
-                const box1: ISortBox = {...newSortBoxes[j], isActive: true };
-                const box2: ISortBox = {...newSortBoxes[j + 1], isActive: true };
+                const box1: ISortBox = {...newSortBoxes[j], boxState: BoxState.SwapBox1 };
+                const box2: ISortBox = {...newSortBoxes[j + 1], boxState: BoxState.SwapBox2 };
 
-                await MoveBoxesToSwap(j, newSortBoxes, true, setSortBoxes);
+                await ToggleActiveBoxes(j, newSortBoxes, BoxState.SwapBox1, BoxState.SwapBox2, setSortBoxes);
 
                 if (box1.value > box2.value)
                 {
@@ -53,10 +51,10 @@ export function Sort()
 
                     setSortBoxes([...newSortBoxes]);
 
-                    await new Promise(x => setTimeout(x, 500));
+                    await new Promise(x => setTimeout(x, 800));
                 }
 
-                await MoveBoxesToSwap(j, newSortBoxes, false, setSortBoxes);
+                await ToggleActiveBoxes(j, newSortBoxes, BoxState.Normal, BoxState.Normal, setSortBoxes);
             }
         }
 
@@ -77,14 +75,15 @@ export function Sort()
     )
 }
 
-async function MoveBoxesToSwap(
+async function ToggleActiveBoxes(
     index: number,
     boxes: ISortBox[],
-    isActiveBox: boolean,
+    box1State: BoxState,
+    box2State: BoxState,
     callback: (movedBoxes: ISortBox[]) => void)
 {
-    const box1: ISortBox = {...boxes[index], isActive: isActiveBox };
-    const box2: ISortBox = {...boxes[index + 1], isActive: isActiveBox };
+    const box1: ISortBox = {...boxes[index], boxState: box1State };
+    const box2: ISortBox = {...boxes[index + 1], boxState: box2State };
 
     [boxes[index], boxes[index + 1]] = [box1, box2];
 
