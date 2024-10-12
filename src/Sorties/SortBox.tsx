@@ -4,7 +4,6 @@ export interface ISortBox
 {
     index: number,
     value: number,
-    // isActive: boolean,
     boxState: BoxState
 }
 
