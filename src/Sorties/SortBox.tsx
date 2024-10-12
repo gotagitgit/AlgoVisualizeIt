@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { SortContext } from './Sort';
 
 export interface ISortBox
 {
@@ -14,24 +15,41 @@ export enum BoxState
   SwapBox2
 }
 
-export function SortBox(props: ISortBox) {
-    const { index, value, boxState } = props;
+export function SortBox()
+{
+  const sortContext = useContext(SortContext);
 
-    let boxClass = "box";
+  const boxes = sortContext.sortBoxes.map(x => createBox(x));
 
-    switch (boxState) {
-      case BoxState.SwapBox1:
-          boxClass = "box1";
-        break;
-      case BoxState.SwapBox2:
-        boxClass = "box2";
-        break;
-      default:
-        boxClass = "box";
-        break;
-    }
-
-    return (
-    <li className={boxClass} key={index}>{value}</li>
+  return (
+    <ul className="box-list">
+      {boxes}
+    </ul>
   )
+}
+
+function createBox(box: ISortBox)
+{
+  const { index, value, boxState } = box;
+
+  const boxClass = getBoxStyle(boxState);
+
+  return (
+      <li className={boxClass} key={index}>{value}</li>
+  )
+}
+
+function getBoxStyle(boxState: BoxState)
+{
+  switch (boxState)
+  {
+    case BoxState.SwapBox1:
+      return "box1";
+
+    case BoxState.SwapBox2:
+      return "box2";
+
+    default:
+      return "box";
+  }
 }

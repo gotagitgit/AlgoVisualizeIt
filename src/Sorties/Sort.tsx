@@ -1,10 +1,12 @@
-import React, { useEffect, useReducer, useState } from 'react'
+import React, { createContext, useEffect, useReducer, useState } from 'react'
 import './sort.css'
 import { BoxState, ISortBox, SortBox } from './SortBox'
 import { UpdateSortBoxesAction, SortActionTypes } from './sortActions';
 import { initialState, ISortState, reducer } from './reducer';
 
 const timeOut = 500;
+
+export const SortContext = createContext<ISortState>(initialState);
 
 export function Sort()
 {
@@ -28,17 +30,15 @@ export function Sort()
         setIsSorting(false);
     };
 
-    const boxes = state.sortBoxes.map((box, _) => <SortBox {...box} />);
-
     return (
-        <div className="container">
-            <ul className="box-list">
-                {boxes}
-            </ul>
-            <button className="action-button" onClick={swapNumbers}>
-                {isSorting ? 'Sorting ...' : 'Sort'}
-            </button>
-        </div>
+        <SortContext.Provider value={state}>
+            <div className="container">
+                <SortBox />
+                <button className="action-button" onClick={swapNumbers}>
+                    {isSorting ? 'Sorting ...' : 'Sort'}
+                </button>
+            </div>
+        </SortContext.Provider>
     )
 }
 
